@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGICC7 SOLUTIONS - Professional Tech Services</title>
+    <style>
+        /* Base Styles */
+        :root {
+            --primary: #0f0f0f;
+            --secondary: #050505;
+            --accent: #ffffff;
+            --text: #f5f5f5;
+            --text-secondary: #aaaaaa;
+            --border: rgba(255, 255, 255, 0.15);
+            --hover: rgba(255, 255, 255, 0.1);
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Initial Animation */
+        .intro-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .intro-text {
+            font-size: 2.5rem;
+            text-align: center;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: pulsate 2s ease-in-out infinite;
+        }
+
+        .intro-text .bold {
+            font-weight: 700;
+        }
+
+        .intro-text .light {
+            font-weight: 300;
+        }
+
+        @keyframes pulsate {
+            0% { opacity: 0.8; transform: scale(0.98); text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            50% { opacity: 1; transform: scale(1.02); text-shadow: 0 0 15px rgba(255, 255, 255, 0.7); }
+            100% { opacity: 0.8; transform: scale(0.98); text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+        }
+
+        /* Space Background & Stars */
+        .space-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            opacity: var(--opacity);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: var(--opacity); transform: scale(1); }
+            50% { opacity: var(--opacity-max); transform: scale(1.1); }
+        }
+
+        /* Shooting stars */
+        .shooting-star {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            background: linear-gradient(90deg, #fff, transparent);
+            animation: shooting var(--duration) linear infinite;
+            animation-delay: var(--delay);
+            transform: rotate(var(--angle));
+        }
+
+        @keyframes shooting {
+            0% {
+                opacity: 0;
+                width: 0;
+                transform: translateX(0) rotate(var(--angle));
+            }
+            1% {
+                opacity: 1;
+            }
+            5% {
+                width: var(--length);
+                opacity: 1;
+            }
+            10% {
+                width: 0;
+                opacity: 0;
+                transform: translateX(var(--distance)) rotate(var(--angle));
+            }
+            100% {
+                opacity: 0;
+                width: 0;
+                transform: translateX(var(--distance)) rotate(var(--angle));
+            }
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .content-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        header {
+            padding: 1.8rem 0;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 2rem;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .logo .bold {
+            font-weight: 700;
+        }
+
+        .logo .light {
+            font-weight: 300;
+        }
+
+        .tagline {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            letter-spacing: 0.03em;
+        }
+
+        .skills-section {
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            padding: 1.8rem;
+            margin-bottom: 1.8rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: transform 0.8s ease, opacity 0.8s ease;
+        }
+
+        .skills-section.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+        }
+
+        .section-title i {
+            margin-right: 0.6rem;
+            font-size: 1.2rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .skill-item {
+            background: rgba(5, 5, 5, 0.5);
+            padding: 0.7rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-3px);
+            background: var(--hover);
+            border-color: var(--border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-list {
+            margin-top: 1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .project-item {
+            margin-bottom: 0.7rem;
+            position: relative;
+            padding-left: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-item:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .project-item:hover {
+            color: var(--text);
+            transform: translateX(5px);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1.2rem;
+        }
+
+        .service-card {
+            background: rgba(5, 5, 5, 0.4);
+            border-radius: 6px;
+            padding: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            background: var(--hover);
+            border-color: var(--border);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-title {
+            font-size: 1rem;
+            margin-bottom: 0.6rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .service-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .contact-section {
+            text-align: center;
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            padding: 2rem 1.5rem;
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: transform 0.6s ease, opacity 0.6s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-section.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .contact-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            color: var(--accent);
+            font-weight: 500;
+            letter-spacing: 0.03em;
+        }
+
+        .contact-email {
+            font-size: 1.05rem;
+            color: var(--text);
+            text-decoration: none;
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: all 0.3s ease;
+            letter-spacing: 0.03em;
+        }
+
+        .contact-email:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Floating animation for contact section */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .float-animation {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        /* Scroll animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translate3d(0, 40px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translate3d(-40px, 0, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translate3d(40px, 0, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        .animate-fade-up {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .animate-fade-left {
+            animation: fadeInLeft 0.8s ease forwards;
+        }
+
+        .animate-fade-right {
+            animation: fadeInRight 0.8s ease forwards;
+        }
+
+        /* Media Queries */
+        @media (min-width: 768px) {
+            .container {
+                padding: 2rem;
+                max-width: 800px;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 1rem;
+            }
+
+            .skill-item {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .intro-text {
+                font-size: 3.5rem;
+            }
+
+            .logo {
+                font-size: 2.2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Initial Animation -->
+    <div class="intro-animation">
+        <div class="intro-text">
+            <span class="bold">LOGICC7</span><br>
+            <span class="light">SOLUTIONS</span>
+        </div>
+    </div>
+
+    <!-- Space Background with Stars -->
+    <div class="space-background" id="space-bg"></div>
+
+    <!-- Main Content -->
+    <div class="container" id="main-content">
+        <header>
+            <div class="logo">
+                <span class="bold">LOGICC7</span> <span class="light">SOLUTIONS</span>
+            </div>
+            <div class="tagline">Advanced Engineering • Enterprise Solutions • Data Excellence</div>
+        </header>
+
+        <!-- Projects section -->
+        <div class="skills-section" data-animation="fade-up">
+            <div class="section-title">
+                <i class="fas fa-project-diagram"></i> Solutions & Services
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-title">Advanced Web Applications</div>
+                    <div class="service-description">
+                        Custom-built web solutions designed for high performance, scalability, and security. From complex business applications to customer-facing portals with modern UI/UX.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Telegram Bot Development</div>
+                    <div class="service-description">
+                        Automated solutions for business processes, customer service, and marketing through custom Telegram bots with rich functionality and analytics integration.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">High-Load API Architecture</div>
+                    <div class="service-description">
+                        Engineered API solutions built to handle millions of requests with optimal response times, fault tolerance, and horizontal scaling capabilities.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Data Monitoring Systems</div>
+                    <div class="service-description">
+                        End-to-end monitoring solutions that provide real-time visibility into your critical business metrics, performance indicators, and system health.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Advanced Traffic Analytics</div>
+                    <div class="service-description">
+                        Comprehensive tracking systems for conversion analysis, click monitoring, event tracking, and UTM parameter processing for data-driven marketing decisions.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Ad Platform Integration</div>
+                    <div class="service-description">
+                        Seamless integration with major advertising platforms including Facebook Ads, Google Ads, and TikTok for automated campaign management and optimization.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Smart Traffic Distribution</div>
+                    <div class="service-description">
+                        Intelligent traffic routing systems (SmartLink) that optimize user flow based on multiple parameters for maximum conversion and revenue generation.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Real-Time Analytics</div>
+                    <div class="service-description">
+                        Sophisticated analytics dashboards displaying key metrics (ROI, CTR, EPC, CPM) in real-time for immediate performance assessment and optimization.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Cloaking Services</div>
+                    <div class="service-description">
+                        Advanced traffic filtering and presentation solutions tailored to specific audience segments for optimized marketing campaigns and improved targeting.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Proxy Management Systems</div>
+                    <div class="service-description">
+                        Enterprise-grade proxy infrastructure management with automated rotation, health monitoring, and performance optimization for secure operations.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Data Warehousing</div>
+                    <div class="service-description">
+                        Design and implementation of comprehensive data storage solutions to centralize, organize, and secure your business intelligence assets.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">ETL/ELT Process Implementation</div>
+                    <div class="service-description">
+                        Development of robust data pipelines for extracting, transforming, loading, and processing data from multiple sources into structured analytics systems.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Data Mart Development</div>
+                    <div class="service-description">
+                        Creation of specialized, subject-oriented data repositories optimized for specific business units and analytical requirements.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Dashboard Development</div>
+                    <div class="service-description">
+                        Custom interactive visualization interfaces providing intuitive access to business intelligence with drill-down capabilities and actionable insights.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Real-Time Data Analysis</div>
+                    <div class="service-description">
+                        Implementation of streaming analytics solutions for immediate data processing, pattern recognition, and automated decision-making capabilities.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Enterprise System Integration</div>
+                    <div class="service-description">
+                        Seamless incorporation of new enterprise-level solutions with existing IT infrastructure to ensure data continuity and process optimization.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Business Process Optimization</div>
+                    <div class="service-description">
+                        Analysis and re-engineering of operational workflows to eliminate inefficiencies and enhance productivity across your organization.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">IT Cost Optimization</div>
+                    <div class="service-description">
+                        Strategic assessment and restructuring of IT investments to reduce TCO while maintaining or improving functional capabilities and performance.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">VPN Network Implementation</div>
+                    <div class="service-description">
+                        Design and deployment of secure, high-performance virtual private networks for remote access, site-to-site connectivity, and data protection.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Server Architecture Design</div>
+                    <div class="service-description">
+                        Comprehensive server infrastructure planning and implementation (VPS, VDS, and on-premises) optimized for performance, redundancy, and scalability.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Data Parsers & Aggregators</div>
+                    <div class="service-description">
+                        Custom-built data collection tools that efficiently gather, normalize, and consolidate information from multiple sources for comprehensive analysis.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Telematics Software</div>
+                    <div class="service-description">
+                        Specialized solutions for remote monitoring and control of physical assets, enabling data-driven management of distributed infrastructure.
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">Custom Traffic Solutions</div>
+                    <div class="service-description">
+                        Tailored implementations including Keitaro configuration, MVP development, and bespoke traffic management systems aligned with specific business needs.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="skills-section" data-animation="fade-up">
+            <div class="section-title">
+                <i class="fas fa-code"></i> Programming Languages & Frameworks
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">Python (3.x)</div>
+                <div class="skill-item">C# (.NET Core)</div>
+                <div class="skill-item">ASP.NET</div>
+                <div class="skill-item">Django</div>
+                <div class="skill-item">Django REST</div>
+                <div class="skill-item">Flask</div>
+                <div class="skill-item">FastAPI</div>
+                <div class="skill-item">Celery</div>
+                <div class="skill-item">SQLAlchemy</div>
+                <div class="skill-item">Pydantic</div>
+                <div class="skill-item">Selenium</div>
+                <div class="skill-item">pyppeteer</div>
+            </div>
+        </div>
+
+        <div class="skills-section" data-animation="fade-left">
+            <div class="section-title">
+                <i class="fas fa-server"></i> API & Protocols
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">REST API</div>
+                <div class="skill-item">GraphQL</div>
+                <div class="skill-item">Graphene</div>
+                <div class="skill-item">Strawberry</div>
+                <div class="skill-item">Hot Chocolate</div>
+                <div class="skill-item">Swagger</div>
+                <div class="skill-item">OpenAPI</div>
+            </div>
+        </div>
+
+        <div class="skills-section" data-animation="fade-right">
+            <div class="section-title">
+                <i class="fas fa-cloud"></i> DevOps & Infrastructure
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">Docker</div>
+                <div class="skill-item">Docker Compose</div>
+                <div class="skill-item">Kubernetes</div>
+                <div class="skill-item">CI/CD</div>
+                <div class="skill-item">GitHub Actions</div>
+                <div class="skill-item">GitLab CI</div>
+                <div class="skill-item">Azure DevOps</div>
+                <div class="skill-item">AWS (EC2, S3)</div>
+                <div class="skill-item">DigitalOcean</div>
+                <div class="skill-item">Nginx</div>
+            </div>
+        </div>
+
+        <div class="skills-section" data-animation="fade-up">
+            <div class="section-title">
+                <i class="fas fa-vial"></i> Testing & Quality
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">Pytest</div>
+                <div class="skill-item">unittest</div>
+                <div class="skill-item">xUnit</div>
+                <div class="skill-item">NUnit</div>
+                <div class="skill-item">Mock</div>
+                <div class="skill-item">pytest-mock</div>
+                <div class="skill-item">Moq</div>
+            </div>
+        </div>
+
+        <div class="skills-section" data-animation="fade-left">
+            <div class="section-title">
+                <i class="fas fa-tools"></i> Development Tools
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">Git</div>
+                <div class="skill-item">GitHub</div>
+                <div class="skill-item">GitLab</div>
+                <div class="skill-item">Bitbucket</div>
+                <div class="skill-item">Celery</div>
+                <div class="skill-item">RabbitMQ</div>
+                <div class="skill-item">Redis</div>
+                <div class="skill-item">Docker</div>
+                <div class="skill-item">venv</div>
+                <div class="skill-item">Conda</div>
+                <div class="skill-item">PyCharm</div>
+                <div class="skill-item">Visual Studio</div>
+                <div class="skill-item">VS Code</div>
+                <div class="skill-item">pylint</div>
+                <div class="skill-item">flake8</div>
+                <div class="skill-item">black</div>
+                <div class="skill-item">ReSharper</div>
+            </div>
+        </div>
+
+        <div class="skills-section" data-animation="fade-right">
+            <div class="section-title">
+                <i class="fas fa-database"></i> Databases & Storage
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">PostgreSQL</div>
+                <div class="skill-item">MySQL</div>
+                <div class="skill-item">SQLite</div>
+                <div class="skill-item">MS SQL Server</div>
+                <div class="skill-item">MongoDB</div>
+                <div class="skill-item">Redis</div>
+                <div class="skill-item">Firebase</div>
+            </div>
+        </div>
+
+        <div class="contact-section float-animation" data-animation="fade-up">
+            <div class="contact-title">Contact Us</div>
+            <a href="mailto:logicc78@gmail.com" class="contact-email">logicc78@gmail.com</a>
+        </div>
+    </div>
+
+    <script>
+        // Wait for the page to load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle intro animation
+            setTimeout(() => {
+                const intro = document.querySelector('.intro-animation');
+                intro.style.opacity = '0';
+                setTimeout(() => {
+                    intro.style.display = 'none';
+
+                    // Show the main content with animation
+                    const mainContent = document.getElementById('main-content');
+                    mainContent.classList.add('content-visible');
+
+                    // Initially check which elements are visible
+                    checkVisibleElements();
+                }, 500);
+            }, 2000); // 2 second intro animation
+
+            // Create stars for space background
+            const spaceBackground = document.getElementById('space-bg');
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            // Create stars
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                const size = Math.random() * 2.5;
+                const opacity = Math.random() * 0.5 + 0.2;
+                const posX = Math.random() * screenWidth;
+                const posY = Math.random() * screenHeight;
+                const duration = Math.random() * 5 + 2;
+
+                star.style.setProperty('--opacity', opacity);
+                star.style.setProperty('--opacity-max', Math.min(opacity + 0.3, 1));
+                star.style.setProperty('--duration', `${duration}s`);
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${posX}px`;
+                star.style.top = `${posY}px`;
+
+                spaceBackground.appendChild(star);
+            }
+
+            // Create shooting stars
+            for (let i = 0; i < 8; i++) {
+                createShootingStar();
+            }
+
+            // Function to create a shooting star
+            function createShootingStar() {
+                const shootingStar = document.createElement('div');
+                shootingStar.classList.add('shooting-star');
+
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                const angle = Math.random() * 60 - 30;
+                const length = Math.random() * 150 + 50;
+                const posX = Math.random() * screenWidth;
+                const posY = Math.random() * (screenHeight / 2);
+                const duration = Math.random() * 5 + 5;
+                const delay = Math.random() * 15;
+                const distance = Math.random() * 300 + 200;
+
+                shootingStar.style.setProperty('--angle', `${angle}deg`);
+                shootingStar.style.setProperty('--length', `${length}px`);
+                shootingStar.style.setProperty('--duration', `${duration}s`);
+                shootingStar.style.setProperty('--delay', `${delay}s`);
+                shootingStar.style.setProperty('--distance', `${distance}px`);
+                shootingStar.style.left = `${posX}px`;
+                shootingStar.style.top = `${posY}px`;
+
+                spaceBackground.appendChild(shootingStar);
+            }
+
+            // Scroll event to check visible elements
+            let lastScrollTop = 0;
+
+            function checkVisibleElements() {
+                const sections = document.querySelectorAll('.skills-section, .contact-section');
+                const currentScrollPos = window.pageYOffset || document.documentElement.scrollTop;
+                const isScrollingDown = currentScrollPos > lastScrollTop;
+                lastScrollTop = currentScrollPos;
+
+                sections.forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    const sectionBottom = section.getBoundingClientRect().bottom;
+                    const windowHeight = window.innerHeight;
+
+                    // Element is entering viewport from bottom when scrolling up
+                    if (sectionTop < windowHeight * 0.85 && sectionBottom > 0) {
+                        if (!section.classList.contains('visible')) {
+                            section.classList.add('visible');
+
+                            // Add directional animation class based on data attribute
+                            const animationType = section.getAttribute('data-animation');
+                            if (animationType) {
+                                section.classList.add(`animate-${animationType}`);
+                            }
+                        }
+                    } else if ((isScrollingDown && sectionTop > windowHeight * 1.2) || (!isScrollingDown && sectionBottom < -50)) {
+                        // Element is leaving viewport
+                        if (section.classList.contains('visible')) {
+                            section.classList.remove('visible');
+
+                            // Remove animation classes
+                            section.classList.remove('animate-fade-up', 'animate-fade-left', 'animate-fade-right');
+                        }
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', checkVisibleElements);
+
+            // Recreate shooting stars periodically
+            setInterval(() => {
+                const shootingStars = document.querySelectorAll('.shooting-star');
+
+                // Remove old shooting stars
+                shootingStars.forEach(star => {
+                    if (Math.random() > 0.7) { // Only remove some to maintain a continuous effect
+                        star.remove();
+                    }
+                });
+
+                // Create new shooting stars
+                for (let i = 0; i < 3; i++) {
+                    createShootingStar();
+                }
+            }, 6000);
+
+            // Handle window resize for stars
+            window.addEventListener('resize', () => {
+                // Update star positions when window is resized
+                const stars = document.querySelectorAll('.star');
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+
+                stars.forEach(star => {
+                    if (Math.random() > 0.5) { // Randomly reposition only some stars
+                        const posX = Math.random() * screenWidth;
+                        const posY = Math.random() * screenHeight;
+                        star.style.left = `${posX}px`;
+                        star.style.top = `${posY}px`;
+                    }
+                });
+
+                // Recreate shooting stars on resize
+                const shootingStars = document.querySelectorAll('.shooting-star');
+                shootingStars.forEach(star => star.remove());
+
+                for (let i = 0; i < 8; i++) {
+                    createShootingStar();
+                }
+
+                // Check visible elements after resize
+                checkVisibleElements();
+            });
+        });
+    </script>
+</body>
+</html>
